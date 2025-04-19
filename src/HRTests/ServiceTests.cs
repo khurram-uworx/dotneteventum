@@ -10,7 +10,7 @@ public class ServiceTests
 {
     const string TestUser = "test@email.com";
 
-    HRUserInfo testUser1 = new()
+    HREmployeeInfo testUser1 = new()
     {
         UserIndex = 1,
         UserGuid = Guid.NewGuid(),
@@ -19,25 +19,20 @@ public class ServiceTests
         MiddleName = "middleName",
         LastName = "lastName"
     };
-    Mock<IHRUsersRepository> repositoryMock;
+    Mock<IHRRepository> repositoryMock;
     IUsersService serviceUnderTest() => new UserService(this.repositoryMock.Object);
-
-    [SetUp]
-    public void Setup()
-    {
-    }
 
     [Test]
     public void WhenMockIsReturningNothing()
     {
         //Arrange
-        this.repositoryMock = new Mock<IHRUsersRepository>();
+        this.repositoryMock = new Mock<IHRRepository>();
 
         //Act
         var result = this.serviceUnderTest().GetUserInformationByEmail(TestUser);
 
         //Assert
-        this.repositoryMock.Verify(s => s.GetUsers(), Times.Once);
+        this.repositoryMock.Verify(s => s.GetEmployeeByEmail(TestUser), Times.Once);
         Assert.IsTrue(!result.Succeeded);
     }
 
@@ -45,16 +40,16 @@ public class ServiceTests
     public void WhenMockIsReturningSomething()
     {
         //Arrange
-        this.repositoryMock = new Mock<IHRUsersRepository>();
-        this.repositoryMock.Setup(s => s.GetUsers())
-            .Returns(new[] { testUser1 });
+        this.repositoryMock = new Mock<IHRRepository>();
+        this.repositoryMock.Setup(s => s.GetEmployeeByEmail(TestUser))
+            .Returns(new DataResult<HREmployeeInfo>(testUser1));
 
         //Act
         var result = this.serviceUnderTest().GetUserInformationByEmail(TestUser);
-        var data = result.Succeeded ? result as HRDataResult<HRUserResponse> : null;
+        var data = result.Succeeded ? result as DataResult<HRUserResponse> : null;
 
         //Assert
-        this.repositoryMock.Verify(s => s.GetUsers(), Times.Once);
+        this.repositoryMock.Verify(s => s.GetEmployeeByEmail(TestUser), Times.Once);
         Assert.IsTrue(result.Succeeded);
         Assert.IsTrue(null != data && data.Succeeded && null != data.Data && data.Data.FirstName.Length > 0);
     }
@@ -63,15 +58,15 @@ public class ServiceTests
     public void WhenMockIsRaisingException()
     {
         //Arrange
-        this.repositoryMock = new Mock<IHRUsersRepository>();
-        this.repositoryMock.Setup(s => s.GetUsers())
+        this.repositoryMock = new Mock<IHRRepository>();
+        this.repositoryMock.Setup(s => s.GetEmployeeByEmail(TestUser))
             .Throws(new ApplicationException());
 
         //Act
         var result = this.serviceUnderTest().GetUserInformationByEmail(TestUser);
 
         //Assert
-        this.repositoryMock.Verify(s => s.GetUsers(), Times.Once);
+        this.repositoryMock.Verify(s => s.GetEmployeeByEmail(TestUser), Times.Once);
         Assert.IsTrue(!result.Succeeded);
     }
 }

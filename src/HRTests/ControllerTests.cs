@@ -12,7 +12,7 @@ public class ControllerTests
 {
     const string TestUser = "test@email.com";
 
-    HRUserInfo testUser1 = new()
+    HREmployeeInfo testUser1 = new()
     {
         UserIndex = 1,
         UserGuid = Guid.NewGuid(),

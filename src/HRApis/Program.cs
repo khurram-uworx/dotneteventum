@@ -25,8 +25,8 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        builder.Services.AddScoped<IHRUsersRepository>(s => 
-            new SqlUsersRepository("Server=.;Database=HumanResources;Integrated Security=True;TrustServerCertificate=True;"));
+        builder.Services.AddScoped<IHRRepository>(s => 
+            new SqlRepository("Server=.;Database=HumanResources;Integrated Security=True;TrustServerCertificate=True;"));
         builder.Services.AddScoped(typeof(UserService));
 
         var app = builder.Build();

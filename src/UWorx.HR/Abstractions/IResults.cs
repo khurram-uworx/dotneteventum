@@ -2,14 +2,14 @@
 
 namespace UWorx.HR.Abstractions;
 
-public interface IHRResult
+public interface IResult
 {
     ICollection<string> Errors { get; }
     bool Succeeded { get; }
-    IHRResult AddError(string error); // for fluent api
+    IResult AddError(string error); // for fluent api
 }
 
-public interface IHRDataResult<T> : IHRResult
+public interface IDataResult<T> : IResult
 {
     T Data { get; }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using System;
 using UWorx.HR.Abstractions;
 
 namespace HRApis.Services;
@@ -18,7 +17,5 @@ public class HRUserResponse
 
 public interface IUsersService
 {
-    IHRResult GetUserInformationByEmail(string email);
-    IHRResult GetUserInformationByIndex(int userIndex);
-    IHRResult GetUserInformationByGuid(Guid userGuid);
+    IResult GetUserInformationByEmail(string email);
 }

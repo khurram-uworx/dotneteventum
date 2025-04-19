@@ -21,9 +21,9 @@ public class UsersController : ControllerBase
     [HttpPut]
     public IActionResult CreateUser(
         [FromServices] IUsersService service,
-        [FromBody] HRUserInfo userInfo)
+        [FromBody] HREmployeeInfo userInfo)
     {
-        Func<HRUserInfo, bool> valid = u => true;
+        Func<HREmployeeInfo, bool> valid = u => true;
 
         try
         {
@@ -50,7 +50,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult UpdateUser([FromBody] HRUserInfo userInfo)
+    public IActionResult UpdateUser([FromBody] HREmployeeInfo userInfo)
     {
         return base.BadRequest();
     }
@@ -58,7 +58,7 @@ public class UsersController : ControllerBase
     [HttpPost]
     [Route("/{userIndex}")]
     public IActionResult UpdateUserByIndex([FromRoute] int userIndex,
-        [FromBody] HRUserInfo userInfo)
+        [FromBody] HREmployeeInfo userInfo)
     {
         return base.BadRequest();
     }
@@ -66,7 +66,7 @@ public class UsersController : ControllerBase
     [HttpPost]
     [Route("/{guid}")]
     public IActionResult UpdateUserByGuid([FromRoute] Guid guid,
-        [FromBody] HRUserInfo userInfo)
+        [FromBody] HREmployeeInfo userInfo)
     {
         return base.BadRequest();
     }

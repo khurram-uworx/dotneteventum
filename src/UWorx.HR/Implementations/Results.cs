@@ -3,11 +3,11 @@ using UWorx.HR.Abstractions;
 
 namespace UWorx.HR.Implementations;
 
-public class HRResult : IHRResult
+public class Result : IResult
 {
     readonly ICollection<string> errors;
 
-    public HRResult()
+    public Result()
     {
         this.errors = new List<string>();
     }
@@ -16,20 +16,22 @@ public class HRResult : IHRResult
 
     public bool Succeeded => Errors.Count == 0;
 
-    public IHRResult AddError(string error) // for fluent api
+    public IResult AddError(string error) // for fluent api
     {
         this.errors.Add(error);
         return this;
     }
 }
 
-public class HRDataResult<T> : HRResult, IHRDataResult<T>
+public class DataResult<T> : Result, IDataResult<T>
 {
     readonly T data;
 
-    public HRDataResult(T data) : base()
+    public DataResult(T data) : base()
     {
         this.data = data;
+        if (data is null)
+            base.AddError("data missing");
     }
 
     public T Data => this.data;
